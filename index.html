@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Database</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Animal Database</h1>
+    </header>
+    <main>
+        <section class="container">
+            <h2 id="getDisplay">Select the value you want to get</h2>
+            <select id="selectInput">
+                <option value="name">Name</option>
+                <option value="type">Type</option>
+                <option value="legs">Legs</option>
+                <option value="favorite_food">Favorite food</option>
+            </select>
+            <button class="button" onclick="getFromDb()">Get from server</button>
+        </section>
+
+        <section class="container">
+            <h2 id="addDisplay">Add a new animal</h2>
+            <div id="addAnimalForm">
+                <div class="input-group">
+                    <input id="postName" required placeholder="Name">
+                </div>
+                <div class="input-group">
+                    <input id="postType" required placeholder="Type">
+                </div>
+                <div class="input-group">
+                    <input id="postLegs" type="number" required placeholder="Number of legs">
+                </div>
+                <div class="input-group">
+                    <input id="postFavFood" required placeholder="Favorite food">
+                </div>
+                <button class="button" onclick="addNewAnimal()">Create</button>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2 id="deleteDisplay">Delete an animal</h2>
+            <div id="deleteAnimalForm">
+                <div class="input-group">
+                    <input id="deleteId" name="id" type="number" required placeholder="Insert ID here">
+                </div>
+                <button class="button" onclick="deleteWithId()">Delete</button>
+            </div>
+
+            <section class="container">
+                <h2 id="updateDisplay">Update an animal</h2>
+                <div id="updateAnimalForm">
+                    <div class="input-group">
+                        <input id="updateID" required placeholder="ID">
+                    </div>
+                    <div class="input-group">
+                        <input id="updateName" required placeholder="Name">
+                    </div>
+                    <div class="input-group">
+                        <input id="updateType" required placeholder="Type">
+                    </div>
+                    <div class="input-group">
+                        <input id="updateLegs" type="number" required placeholder="Number of legs">
+                    </div>
+                    <div class="input-group">
+                        <input id="updateFavFood" required placeholder="Favorite food">
+                    </div>
+                    <button class="button" onclick="updateAnimal()">Update</button>
+                </div>
+            </section>
+
+        </section>
+
+        <section class="container">
+            <h2 id="tableDiv">Surprise!</h2>
+            <button class="button" onclick="showTable()">Click here for surprise</button>
+        </section>
+    </main>
+
+    <script>
+        const getFromDb = async () => {
+            const res = await axios.get('http://localhost:3000/animals')
+            getDisplay.innerHTML = res.data.map(itemDB => `<u><dl><li>${itemDB[selectInput.value]}, this entry id is ${itemDB.id}</li></dl>`).join('')
+            getDisplay.classList.add("updatedContainer")
+        }
+
+        const addNewAnimal = () => axios.post('http://localhost:3000/animals', { name: postName.value, type: postType.value, legs: postLegs.value, favorite_food: postFavFood.value })
+            .then(response => { addDisplay.innerHTML = `New animal added successfully!`; addDisplay.classList.add("updatedContainer") });
+
+        const updateAnimal = () => {
+            axios.put(`http://localhost:3000/animals/${updateID.value}`, { name: updateName.value, type: updateType.value, legs: updateLegs.value, favorite_food: updateFavFood.value })
+                .then(() => { updateDisplay.innerHTML = `Animal with Id ${updateID.value} updated successfully! `; updateDisplay.classList.add("updatedContainer") });
+        }
+
+        const deleteWithId = () => { axios.delete(`http://localhost:3000/animals/${deleteId.value}`); deleteDisplay.classList.add("updatedContainer") }
+
+        let myTable =
+            axios.get('http://localhost:3000/animals')
+                .then(function (response) {
+                    const myData = response.data;
+                    myTable =
+                        `<table border="1">
+                    <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Legs</th>
+                    <th>Favorite food</th>
+                    </tr>
+                    ${myData.map(stu => `<tr>
+                    <td>${stu.id}</td>
+                    <td>${stu.name}</td>
+                    <td>${stu.type}</td>
+                    <td>${stu.legs}</td>
+                    <td>${stu.favorite_food}</td>
+                    </tr>`).join('')
+                        }
+                    </table>`;
+                });
+
+        function showTable() {
+            tableDiv.innerHTML = myTable;
+            tableDiv.classList.add("updatedContainer")
+        }
+    </script>
+</body>
+</html>

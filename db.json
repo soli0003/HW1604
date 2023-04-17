@@ -1,0 +1,53 @@
+{
+  "animals": [
+    {
+      "id": 1,
+      "name": "Lion",
+      "type": "Mammal",
+      "legs": 4,
+      "favorite_food": "Meat"
+    },
+    {
+      "id": 2,
+      "name": "Giraffe",
+      "type": "Mammal",
+      "legs": 4,
+      "favorite_food": "Leaves"
+    },
+    {
+      "id": 3,
+      "name": "Elephant",
+      "type": "Mammal",
+      "legs": 4,
+      "favorite_food": "Fruits"
+    },
+    {
+      "id": 4,
+      "name": "Penguin",
+      "type": "Bird",
+      "legs": 2,
+      "favorite_food": "Fish"
+    },
+    {
+      "id": 5,
+      "name": "Crocodile",
+      "type": "Reptile",
+      "legs": 4,
+      "favorite_food": "Meat"
+    },
+    {
+      "name": "asd",
+      "type": "sad",
+      "legs": "3",
+      "favorite_food": "sad",
+      "id": 6
+    },
+    {
+      "name": "Menta",
+      "type": "Mammal",
+      "legs": "4",
+      "favorite_food": "Cat_Food",
+      "id": 7
+    }
+  ]
+}
